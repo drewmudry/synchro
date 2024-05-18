@@ -12,7 +12,7 @@ export default function Home() {
       <section className="bg-purple-800 text-white py-20 text-center">
         <h1 className="text-4xl font-bold mb-6">The handiest way to organize teamwork</h1>
         <p className="text-xl mb-8">Lotus Labs is all about the team. Set goals and prioritize them, assign people to tasks, and get things done in time.</p>
-        <Link href="/route1">
+        <Link href="/users">
           Try Lotus Labs for free
         </Link>
       </section>
