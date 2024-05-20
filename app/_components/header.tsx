@@ -19,7 +19,7 @@ export default function Header() {
       <nav>
         <ul className="flex space-x-4">
           <li>
-            <Link href="/account" className="text-[#661438] hover:text-[#AE808B]">
+            <Link href="/dashboard" className="text-[#661438] hover:text-[#AE808B]">
               Sign In
             </Link>
           </li>
