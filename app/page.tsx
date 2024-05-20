@@ -30,26 +30,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      <section className="py-20 text-center">
-        <h2 className="text-3xl font-bold mb-10">Key Features</h2>
-        <div className="flex justify-center space-x-8">
-          <div className="w-1/3">
-            <img src="path/to/feature-icon-1.png" alt="Feature 1" className="inline-block h-20 mb-6" />
-            <h3 className="text-xl font-bold mb-4">Feature 1</h3>
-            <p className="text-base">Description of feature 1 goes here.</p>
-          </div>
-          <div className="w-1/3">
-            <img src="path/to/feature-icon-2.png" alt="Feature 2" className="inline-block h-20 mb-6" />
-            <h3 className="text-xl font-bold mb-4">Feature 2</h3>
-            <p className="text-base">Description of feature 2 goes here.</p>
-          </div>
-          <div className="w-1/3">
-            <img src="path/to/feature-icon-3.png" alt="Feature 3" className="inline-block h-20 mb-6" />
-            <h3 className="text-xl font-bold mb-4">Feature 3</h3>
-            <p className="text-base">Description of feature 3 goes here.</p>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
