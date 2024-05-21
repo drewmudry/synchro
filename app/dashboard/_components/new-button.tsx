@@ -7,12 +7,15 @@ export const NewButton = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="aspect-square">
-          <button>
+      <div className="aspect-square hover:bg-[#661438]">
+          <button className="h-full w-full rounded-sm flex items-center justify-center">
             <Plus className="text-[#F5EBDE]"/>
           </button>
         </div>
       </DialogTrigger>
+      <DialogContent className="p-10">
+        <CreateOrganization />
+      </DialogContent>
     </Dialog>
   );
 };

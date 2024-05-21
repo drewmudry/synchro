@@ -4,9 +4,10 @@ import React from "react";
 import { AuthenticatedHeader } from "@/components/auth/AuthenticatedHeader";
 import Link from "next/link";
 import { Topbar } from './_components/topbar';
+import OrganizationSelector from "./_components/organization-selector";
 
 const page = () => {
-  return (
+    return (
     <div className="flex flex-col min-h-screen">
       <header className="flex justify-between items-center px-8 py-4 bg-[#F5EBDE]">
         <AuthenticatedHeader />
