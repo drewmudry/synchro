@@ -3,18 +3,17 @@ import { UserButton } from "@clerk/clerk-react";
 import React from "react";
 import { AuthenticatedHeader } from "@/components/auth/AuthenticatedHeader";
 import Link from "next/link";
+import { Topbar } from './_components/topbar';
 
 const page = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="flex justify-between items-center px-8 py-4 bg-[#F5EBDE]">
         <AuthenticatedHeader />
-        <div>
-          <UserButton />
-        </div>
       </header>
-      <main className="flex-grow bg-[#F5EBDE]">
-        <div className="container mx-auto py-8">
+      <Topbar />
+      <main className="flex-grow bg-[#F5EBDE] py-8">
+        <div className="container mx-auto">
           <div className="grid grid-rows-3 gap-8">
             <Link href="/boards">
               <div className="bg-[#661438] p-4 rounded shadow">
