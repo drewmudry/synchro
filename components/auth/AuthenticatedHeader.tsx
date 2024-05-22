@@ -1,18 +1,21 @@
-import Image from "next/image";
-import Link from "next/link";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export const AuthenticatedHeader = () => {
-    return (
-        <Link href="/">
+  return (
+    <div className="flex justify-between items-center">
+      <Link href="/">
         <button className="flex items-center">
           <Image
-            src="/logo.png"
+            src="/lotus-flower.svg"
             alt="Logo"
-            width={936}
-            height={204}
-            className="w-auto h-auto"
+            width={32}
+            height={32}
+            className="mr-2"
           />
+          <span className="font-helvetica text-lg text-[#661438]">Synchro</span>
         </button>
       </Link>
-    )
-}
+    </div>
+  );
+};
