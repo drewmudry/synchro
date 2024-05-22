@@ -16,13 +16,19 @@ export const Topbar = () => {
       <div className="w-1/6 flex justify-start">
         <OrganizationSwitcher 
         hidePersonal={true}
+        appearance={{
+            elements: {
+            organizationSwitcherTrigger:
+            "text-[#F5EBDE]"
+            }
+        }}
         />
       </div>
       <div className="w-1/8"></div>
       <div className="w-1/6 flex justify-end">
         <span
           className={`text-[#F5EBDE] cursor-pointer px-2 py-1 rounded ${
-            selectedSpan === "Boards" ? "text-[#661437] bg-[#F5EBDE] " : ""
+            selectedSpan === "Boards" ? "text-[#661437] bg-[#F5EBDE]" : ""
           }`}
           onClick={() => handleSpanClick("Boards")}
         >
