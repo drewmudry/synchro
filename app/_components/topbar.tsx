@@ -1,27 +1,24 @@
 "use client";
+
 import { UserButton } from "@clerk/clerk-react";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { OrganizationSwitcher } from "@clerk/clerk-react";
 
-export const Topbar = () => {
-  const [selectedSpan, setSelectedSpan] = useState(null);
-
+export const Topbar = ({ selectedSpan, setSelectedSpan }) => {
   const handleSpanClick = (spanName) => {
     setSelectedSpan(spanName);
-    // Perform any additional logic based on the selected span
   };
 
   return (
     <div className="flex items-center bg-[#813D58] px-4 py-2">
       <div className="w-1/6 flex justify-start">
-        <OrganizationSwitcher 
-        hidePersonal={true}
-        appearance={{
+        <OrganizationSwitcher
+          hidePersonal={true}
+          appearance={{
             elements: {
-            organizationSwitcherTrigger:
-            "text-[#F5EBDE]"
-            }
-        }}
+              organizationSwitcherTrigger: "text-[#F5EBDE]",
+            },
+          }}
         />
       </div>
       <div className="w-1/8"></div>
