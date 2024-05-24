@@ -1,37 +1,37 @@
 "use client";
-import React, {useState} from "react";
-import { AuthenticatedHeader } from "@/components/auth/AuthenticatedHeader";
-import { Topbar } from "@/app/_components/topbar"
-import BoardSection from "@/app/boards/BoardSection";
+import React, { useState } from "react";
+import { Sidebar } from "@/app/dashboard/_components/sidebar";
+import BoardSection from "@/app/dashboard/_components/BoardSection";
+import Home from "./_components/home";
+import Topbar from "./_components/topbar";
 
-
-const page = () => {
+const Page = () => {
   const [selectedSpan, setSelectedSpan] = useState("Boards");
 
   const renderSelectedComponent = () => {
     switch (selectedSpan) {
       case "Boards":
         return <BoardSection />;
-      // case "Tasks":
-      //   return <TaskHome />;
+      case "Home":
+        return <Home />;
       // case "Notes":
-      //   return <NoteHome />;
+      // return <NoteHome />;
       default:
         return null;
     }
   };
-  
-    return (
-    <div className="flex flex-col min-h-screen">
-      <header className="flex justify-between items-center px-8 py-4 bg-[#F5EBDE]">
-        <AuthenticatedHeader />
-      </header>
-      <Topbar selectedSpan={selectedSpan} setSelectedSpan={setSelectedSpan} />
-      <main className="flex-grow bg-[#F5EBDE] py-8">
-        <div className="container mx-auto">{renderSelectedComponent()}</div>
-      </main>
+
+  return (
+    <div className="flex min-h-screen">
+      <Sidebar selectedSpan={selectedSpan} setSelectedSpan={setSelectedSpan} />
+      <div className="flex-grow bg-[#F5EBDE]">
+        <Topbar />
+        <main className="py-8">
+          <div className="container mx-auto">{renderSelectedComponent()}</div>
+        </main>
+      </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
