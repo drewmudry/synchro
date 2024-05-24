@@ -40,48 +40,33 @@ export const Sidebar: React.FC<SidebarProps> = ({ selectedSpan, setSelectedSpan 
           />
         </div>
         <div
-          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 ${selectedSpan === "Home"
-            ? "text-[#661437] bg-[#F5EBDE]"
-            : "hover:bg-[#661437]"
-            }`}
-          onClick={() => handleSpanClick("Home")}
-        >
+          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 
+          ${selectedSpan === 'Home' ? "bg-[#F5EBDE] text-rose-900" : "hover:bg-[#661437]" }`}
+          onClick={() => handleSpanClick("Home")}>
           <span className="ml-2">Home</span>
         </div>
         <div
-          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 ${selectedSpan === "Boards"
-            ? "text-[#661437] bg-[#F5EBDE]"
-            : "hover:bg-[#661437]"
-            }`}
-          onClick={() => handleSpanClick("Boards")}
-        >
+          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 
+          ${selectedSpan === 'Boards' ? "bg-[#F5EBDE] text-rose-900" : "hover:bg-[#661437]" }`}
+          onClick={() => handleSpanClick("Boards")}>
           <span className="ml-2">Boards</span>
         </div>
         <div
-          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 ${selectedSpan === "Tasks"
-            ? "text-[#661437] bg-[#F5EBDE]"
-            : "hover:bg-[#661437]"
-            }`}
-          onClick={() => handleSpanClick("Tasks")}
-        >
+          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 
+          ${selectedSpan === 'Tasks' ? "bg-[#F5EBDE] text-rose-900" : "hover:bg-[#661437]" }`}
+          onClick={() => handleSpanClick("Tasks")}>
           <span className="ml-2">Tasks</span>
         </div>
         <div
-          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 ${selectedSpan === "Notes"
-            ? "text-[#661437] bg-[#F5EBDE]"
-            : "hover:bg-[#661437]"
-            }`}
-          onClick={() => handleSpanClick("Notes")}
-        >
+          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 
+          ${selectedSpan === 'Notes' ? "bg-[#F5EBDE] text-rose-900" : "hover:bg-[#661437]" }`}
+          onClick={() => handleSpanClick("Notes")}>
           <span className="ml-2">Notes</span>
         </div>
         <div
-          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 ${selectedSpan === "Analytics"
-            ? "text-[#661437] bg-[#F5EBDE]"
-            : "hover:bg-[#661437]"
-            }`}
-          onClick={() => handleSpanClick("Analytics")}
-        >
+          className={`flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2 
+          ${selectedSpan === 'Analytics' ? "bg-[#F5EBDE] text-rose-900" : "hover:bg-[#661437]" }`}
+          onClick={() => handleSpanClick("Analytics")}>
           <span className="ml-2">Analytics</span>
         </div>
       </div>

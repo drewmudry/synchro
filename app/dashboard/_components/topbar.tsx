@@ -1,5 +1,6 @@
 import React from "react";
 import { UserButton } from "@clerk/clerk-react";
+import { GayOrganizationSwitcher } from "@/app/_components/imgay";
 
 const Topbar = () => {
   return (
@@ -10,6 +11,9 @@ const Topbar = () => {
           placeholder="Search..."
           className="rounded-md px-4 py-2 text-[#813D58] focus:outline-none"
         />
+      </div>
+      <div className="flex items-center">
+        <GayOrganizationSwitcher />
       </div>
       <div className="flex items-center">
         <UserButton />
