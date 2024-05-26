@@ -30,7 +30,10 @@ const Page = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Topbar onMenuClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} isMobileMenuOpen={isMobileMenuOpen} />
+      <Topbar
+        onMenuClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        isMobileMenuOpen={isMobileMenuOpen}
+      />
       <div className="flex flex-grow">
         <div
           className={`fixed md:static inset-y-0 left-0 z-20 w-64 bg-[#813D58] text-[#F5EBDE] px-4 py-8 transition-transform duration-300 ease-in-out transform ${
@@ -45,7 +48,7 @@ const Page = () => {
           />
         </div>
         <div className="flex-grow bg-[#F5EBDE] mt-16 md:mt-0">
-          <main className="py-8">
+          <main className="py-8 h-full flex items-center justify-center">
             <div className="container mx-auto">{renderSelectedComponent()}</div>
           </main>
         </div>
