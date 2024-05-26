@@ -4,12 +4,18 @@ import { Sidebar } from "@/app/dashboard/_components/sidebar";
 import BoardSection from "@/app/dashboard/_components/BoardSection";
 import Home from "./_components/home";
 import Topbar from "./_components/topbar";
+import { useOrganization } from "@clerk/clerk-react";
+import { EmptyOrg } from "./_components/EmptyOrg";
 
 const Page = () => {
-  const [selectedSpan, setSelectedSpan] = useState("Boards");
+  const { organization } = useOrganization();
+  const [selectedSpan, setSelectedSpan] = useState("Home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const renderSelectedComponent = () => {
+    if (!organization) {
+      return <EmptyOrg />;
+    }
     switch (selectedSpan) {
       case "Boards":
         return <BoardSection />;

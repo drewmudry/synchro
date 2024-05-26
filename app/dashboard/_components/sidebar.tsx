@@ -2,6 +2,7 @@
 import React from "react";
 import { OrganizationSwitcher } from "@clerk/clerk-react";
 
+
 type SidebarProps = {
   selectedSpan: string;
   setSelectedSpan: (spanName: string) => void;
@@ -15,6 +16,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isMobileMenuOpen,
   setIsMobileMenuOpen,
 }) => {
+
   const handleSpanClick = (spanName: string) => {
     setSelectedSpan(spanName);
   };
@@ -29,10 +31,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               elements: {
                 organizationSwitcherTrigger: "text-[#F5EBDE] text-xl px-4 py-2",
                 organizationSwitcherDropdown: "bg-[#813D58] text-[#F5EBDE]",
-                organizationSwitcherDropdownItemContainer: "hover:bg-[#661437]",
+                organizationSwitcherDropdownItemContainer: "hover:bg-rose-900",
                 organizationSwitcherDropdownItem: "text-[#F5EBDE]",
                 organizationPreviewMainIdentifier: "text-lg",
-                button: "hover:bg-rose-100",
+                button: "hover:bg-pink-950",
                 organizationPreviewAvatarContainer: "p-1",
                 rootBox: "rounded-sm",
                 internal: "null",
