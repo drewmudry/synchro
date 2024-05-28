@@ -23,7 +23,7 @@ export const EmptyOrg = () => {
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button className="size-lg bg-rose-900">
-                            Add Organization
+                            Organizations
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="p-0 bg-transparent border-none max-w-[480px]">
