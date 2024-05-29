@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { BoardSection } from "./_components/BoardSection"; 
+import { BoardSection } from "./_components/BoardSection";
 import Home from "./_components/home";
 import { useOrganization } from "@clerk/clerk-react";
 import { EmptyOrg } from "./_components/EmptyOrg";
 import Navbar from "./_components/navbar";
+import { TaskSection } from "./_components/TaskSection";
+import { NoteSection } from "./_components/NoteSection";
 
 interface DashboardPageProps {
   searchParams: { search?: string };
@@ -20,10 +22,14 @@ const Page = ({ searchParams }: DashboardPageProps) => {
       return <EmptyOrg />;
     }
     switch (selectedSpan) {
-      case "Boards":
-        return <BoardSection orgId={organization.id} query={searchParams} />;
       case "Home":
         return <Home />;
+      case "Boards":
+        return <BoardSection orgId={organization.id} query={searchParams} />;
+      case "Tasks":
+        return <TaskSection orgId={organization.id} query={searchParams}/>;
+      case "Notes":
+        return <NoteSection orgId={organization.id} query={searchParams}/>;
       default:
         return null;
     }
@@ -31,7 +37,7 @@ const Page = ({ searchParams }: DashboardPageProps) => {
 
   return (
     <div className="flex h-screen">
-      <div className="w-64 bg-gray-200">
+      <div className="w-50">
         <Navbar
           selectedSpan={selectedSpan}
           setSelectedSpan={setSelectedSpan}
@@ -39,7 +45,7 @@ const Page = ({ searchParams }: DashboardPageProps) => {
           setIsMobileMenuOpen={setIsMobileMenuOpen}
         />
       </div>
-      <div className="flex-1 p-4">{renderSelectedComponent()}</div>
+      <div className="flex-1 p-4 bg-grey-200">{renderSelectedComponent()}</div>
     </div>
   );
 };
