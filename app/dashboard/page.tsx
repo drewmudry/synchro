@@ -1,13 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import { Sidebar } from "@/app/dashboard/_components/sidebar";
-import BoardSection from "@/app/dashboard/_components/BoardSection";
+import { BoardSection } from "./_components/BoardSection"; 
 import Home from "./_components/home";
-import Topbar from "./_components/topbar";
 import { useOrganization } from "@clerk/clerk-react";
 import { EmptyOrg } from "./_components/EmptyOrg";
+import Navbar from "./_components/navbar";
 
-const Page = () => {
+interface DashboardPageProps {
+  searchParams: { search?: string };
+}
+
+const Page = ({ searchParams }: DashboardPageProps) => {
   const { organization } = useOrganization();
   const [selectedSpan, setSelectedSpan] = useState("Home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,41 +21,25 @@ const Page = () => {
     }
     switch (selectedSpan) {
       case "Boards":
-        return <BoardSection />;
+        return <BoardSection orgId={organization.id} query={searchParams} />;
       case "Home":
         return <Home />;
-      // case "Notes":
-      //   return <NoteHome />;
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Topbar
-        onMenuClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        isMobileMenuOpen={isMobileMenuOpen}
-      />
-      <div className="flex flex-grow">
-        <div
-          className={`fixed md:static inset-y-0 left-0 z-20 w-64 bg-[#813D58] text-[#F5EBDE] px-4 py-8 transition-transform duration-300 ease-in-out transform ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 mt-16 md:mt-0`}
-        >
-          <Sidebar
-            selectedSpan={selectedSpan}
-            setSelectedSpan={setSelectedSpan}
-            isMobileMenuOpen={isMobileMenuOpen}
-            setIsMobileMenuOpen={setIsMobileMenuOpen}
-          />
-        </div>
-        <div className="flex-grow bg-[#F5EBDE] mt-16 md:mt-0">
-          <main className="py-8 h-full flex items-center justify-center">
-            <div className="container mx-auto">{renderSelectedComponent()}</div>
-          </main>
-        </div>
+    <div className="flex h-screen">
+      <div className="w-64 bg-gray-200">
+        <Navbar
+          selectedSpan={selectedSpan}
+          setSelectedSpan={setSelectedSpan}
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
+        />
       </div>
+      <div className="flex-1 p-4">{renderSelectedComponent()}</div>
     </div>
   );
 };

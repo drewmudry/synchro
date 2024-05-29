@@ -6,7 +6,6 @@ export default authMiddleware({
     "/about-boards",
     "/about-notes",
     "/about-tasks",
-    "/dashboard",
   ],
 });
 

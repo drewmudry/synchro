@@ -1,5 +1,5 @@
 import React from "react";
-import { UserButton } from "@clerk/clerk-react";
+import { OrganizationSwitcher, UserButton } from "@clerk/clerk-react";
 import { SearchInput } from "@/app/dashboard/_components/search-input";
 import Image from "next/image";
 
@@ -59,6 +59,24 @@ const Topbar = ({ onMenuClick, isMobileMenuOpen }: TopbarProps) => {
       <div className="flex items-center">
         <SearchInput />
       </div>
+      <div className="flex items-center text-[#F5EBDE] cursor-pointer px-2 py-3 rounded mb-2">
+          <OrganizationSwitcher
+            hidePersonal={true}
+            appearance={{
+              elements: {
+                organizationSwitcherTrigger: "text-[#F5EBDE] text-xl px-4 py-2",
+                organizationSwitcherDropdown: "bg-[#813D58] text-[#F5EBDE]",
+                organizationSwitcherDropdownItemContainer: "hover:bg-rose-900",
+                organizationSwitcherDropdownItem: "text-[#F5EBDE]",
+                organizationPreviewMainIdentifier: "text-lg",
+                button: "hover:bg-pink-950",
+                organizationPreviewAvatarContainer: "p-1",
+                rootBox: "rounded-sm",
+                internal: "null",
+              },
+            }}
+          />
+        </div>
       <div className="flex items-center">
         <UserButton />
       </div>
