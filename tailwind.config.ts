@@ -62,6 +62,12 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        'loading-animation': {
+          '0%': { opacity: '0' },
+          '10%': { opacity: '1' },
+          '90%': { opacity: '0' },
+          '100%': { opacity: '0' },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -74,6 +80,13 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        'loading-950': 'loading-animation 1.4s infinite',
+        'loading-900': 'loading-animation 1.4s infinite 0.2s',
+        'loading-800': 'loading-animation 1.4s infinite 0.4s',
+        'loading-700': 'loading-animation 1.4s infinite 0.6s',
+        'loading-600': 'loading-animation 1.4s infinite 0.8s',
+        'loading-500': 'loading-animation 1.4s infinite 1s',
+        'loading-400': 'loading-animation 1.4s infinite 1.2s',
       },
     },
   },
