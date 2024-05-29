@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { BoardSection } from "./_components/BoardSection";
-import Home from "./_components/home";
 import { useOrganization } from "@clerk/clerk-react";
 import { EmptyOrg } from "./_components/EmptyOrg";
 import Navbar from "./_components/navbar";
 import { TaskSection } from "./_components/TaskSection";
 import { NoteSection } from "./_components/NoteSection";
+import HomeSection from "./_components/HomeSection";
 
 interface DashboardPageProps {
   searchParams: { search?: string };
@@ -23,7 +23,7 @@ const Page = ({ searchParams }: DashboardPageProps) => {
     }
     switch (selectedSpan) {
       case "Home":
-        return <Home />;
+        return <HomeSection />;
       case "Boards":
         return <BoardSection orgId={organization.id} query={searchParams} />;
       case "Tasks":

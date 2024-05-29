@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { OrganizationSwitcher, UserButton, useUser} from "@clerk/clerk-react";
+import { OrganizationSwitcher, UserButton, useUser } from "@clerk/clerk-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { SearchInput } from "@/app/dashboard/_components/search-input";
@@ -28,6 +28,18 @@ export const Navbar: React.FC<NavbarProps> = ({
 
     return (
         <div className="flex flex-col bg-zinc-800 text-white p-4 h-screen w-56">
+            <div className="mb-4 flex">
+                <Image
+                    src="/lotus-teal-500.svg"
+                    alt="Synchro logo"
+                    width={36}
+                    height={36}
+                />
+                <span className="text-teal-500 justify-center font-helvetica text-2xl font-bold mt-auto ml-8">
+                    Synchro
+                </span>
+
+            </div>
             <div className="mb-4">
                 <OrganizationSwitcher
                     hidePersonal={true}
