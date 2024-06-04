@@ -6,8 +6,9 @@ export default defineSchema({
         title: v.string(), 
         content: v.string(), 
         orgId: v.string(), 
-        imageUrl: v.string(), 
-        icon: v.string(), 
+        authorId: v.string(), 
+        authorName: v.string(), 
+        icon: v.optional(v.string()), 
         isPublished: v.boolean(), 
         isArchived: v.boolean(), 
     })

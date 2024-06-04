@@ -63,8 +63,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div className="flex-1">
 
-                {/* Boards button on navbar */}
-                <div
+                {/* Home button on navbar */}
+                {/* <div
                     className={`flex items-center text-gray-200 cursor-pointer px-2 py-3 rounded mb-2 
           ${selectedSpan === 'Home' ? "bg-teal-900 text-gray-200" : "hover:bg-teal-800"}`}
                     onClick={() => handleSpanClick("Home")}>
@@ -76,10 +76,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                         className={`mr-4 ${selectedSpan === "Home" ? "fill-slate-300" : "fill-red-500"}`}
                     />
                     <span className="ml-2">Home</span>
-                </div>
+                </div> */}
 
                 {/* Boards button on navbar */}
-                <div
+                {/* <div
                     className={`flex items-center text-gray-200 cursor-pointer px-2 py-3 rounded mb-2 
           ${selectedSpan === 'Boards' ? "bg-teal-900 text-gray-200" : "hover:bg-teal-800"}`}
                     onClick={() => handleSpanClick("Boards")}>
@@ -91,10 +91,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                         className={`mr-4 ${selectedSpan === "Boards" ? "fill-slate-300" : "fill-red-500"}`}
                     />
                     <span className="ml-2">Boards</span>
-                </div>
+                </div> */}
 
-                {/* Boards button on navbar */}
-                <div
+                {/* Tasks button on navbar */}
+                {/* <div
                     className={`flex items-center text-gray-200 cursor-pointer px-2 py-3 rounded mb-2 
           ${selectedSpan === 'Tasks' ? "bg-teal-900 text-gray-200" : "hover:bg-teal-800"}`}
                     onClick={() => handleSpanClick("Tasks")}>
@@ -106,9 +106,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                         className={`mr-4 ${selectedSpan === "Tasks" ? "fill-slate-300" : "fill-red-500"}`}
                     />
                     <span className="ml-2">Tasks</span>
-                </div>
+                </div> */}
 
-                {/* Boards button on navbar */}
+                {/* Notes button on navbar */}
                 <div
                     className={`flex items-center text-gray-200 cursor-pointer px-2 py-3 rounded mb-2 
           ${selectedSpan === 'Notes' ? "bg-teal-900 text-gray-200" : "hover:bg-teal-800"}`}
