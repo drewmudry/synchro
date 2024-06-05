@@ -7,6 +7,7 @@ import Navbar from "./_components/navbar";
 import { TaskSection } from "./_components/TaskSection";
 import { NoteSection } from "./_components/NoteSection";
 import HomeSection from "./_components/HomeSection";
+import { Navigation } from "./_components/navigation";
 
 interface DashboardPageProps {
   searchParams: { search?: string };
@@ -37,15 +38,16 @@ const Page = ({ searchParams }: DashboardPageProps) => {
 
   return (
     <div className="flex h-screen">
-      <div className="w-50">
-        <Navbar
+      <div>
+        {/* <Navbar
           selectedSpan={selectedSpan}
           setSelectedSpan={setSelectedSpan}
           isMobileMenuOpen={isMobileMenuOpen}
           setIsMobileMenuOpen={setIsMobileMenuOpen}
-        />
+        /> */}
+        <Navigation />
       </div>
-      <div className="flex-1 p-4 bg-grey-200">{renderSelectedComponent()}</div>
+      <div className="bg-grey-200">{renderSelectedComponent()}</div>
     </div>
   );
 };
