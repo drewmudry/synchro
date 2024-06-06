@@ -1,12 +1,17 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { OrganizationSwitcher } from "@clerk/clerk-react"
-import { ChevronsLeft, MenuIcon } from "lucide-react"
+import { OrganizationSwitcher, useOrganization } from "@clerk/clerk-react"
+import { ChevronsLeft, MenuIcon, PlusCircle, PlusSquare } from "lucide-react"
 import Image from "next/image";
 import { usePathname } from "next/navigation"
 import { ElementRef, useEffect, useRef, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
+import { UserButton, useUser } from "@clerk/clerk-react";
+import { useQuery , useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Item } from "./item";
+import { toast } from "sonner";
 
 export const Navigation = () => {
     const pathName = usePathname()
@@ -17,6 +22,11 @@ export const Navigation = () => {
     const navbarRef = useRef<ElementRef<"div">>(null)
     const [isResetting, setIsResetting] = useState(false)
     const [isCollapsed, setIsCollapsed] = useState(isMobile)
+
+    const { user } = useUser();
+    const { organization } = useOrganization()
+    const documents = useQuery(api.documents.get)
+    const create = useMutation(api.documents.create)
 
     useEffect(() => {
         if (isMobile) {
@@ -44,16 +54,20 @@ export const Navigation = () => {
     }
 
     const handleMouseMove = (event: MouseEvent) => {
-        if (!isResizingRef) return
-        let newWidth = event.clientX
-        if (newWidth < 200) newWidth = 200
-        if (newWidth > 480) newWidth = 480
+        if (!isResizingRef.current) return;
+        let newWidth = event.clientX;
+        if (newWidth < 150 && newWidth > 50) newWidth = 150;
+        if (newWidth > 360) newWidth = 360;
 
         if (sidebarRef.current && navbarRef.current) {
-            sidebarRef.current.style.width = `${newWidth}px`
-            navbarRef.current.style.setProperty("width", `calc(100% - ${240}px)`)
+            if (newWidth < 50) {
+                collapse();
+            } else {
+                sidebarRef.current.style.width = `${newWidth}px`;
+                navbarRef.current.style.setProperty("width", `calc(100% - ${newWidth}px)`);
+            }
         }
-    }
+    };
 
     const handleMouseUp = () => {
         isResizingRef.current = false
@@ -85,6 +99,16 @@ export const Navigation = () => {
         }
     }
 
+    const handleCreate = () => {
+        if (!organization) {return}
+        const promise = create({ title: "Untitled", orgId: organization.id })
+    
+        toast.promise(promise, {
+          loading: "Creating a new document...", 
+          success: "New document created!", 
+          error: "Failed to create a new document."
+        })
+      }
 
     return (
         <>
@@ -99,7 +123,7 @@ export const Navigation = () => {
                 <div
                     onClick={collapse}
                     role="button"
-                    className={cn("h-6 w-6 text-muted-foreground rounded-sm hover:bg-teal-500 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+                    className={cn("h-6 w-6 text-muted-foreground rounded-sm hover:bg-gray-300 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
                         isMobile && "opacity-100",
                     )}
                 >
@@ -117,13 +141,15 @@ export const Navigation = () => {
                     />
 
                 </div>
-                <div>
+                <div className="relative">
                     <OrganizationSwitcher
                         hidePersonal={true}
                         appearance={{
                             elements: {
-                                organizationSwitcherTrigger: "flex items-center text-teal-900 text-md rounded-md",
-                                organizationSwitcherDropdown: "bg-red-500 text-gray-200",
+                                organizationSwitcherTrigger: "flex items-center text-teal-900 text-md rounded-md width-100%",
+                                organizationSwitcherDropdown: "bg-red-500 text-gray-200 right-0",
+                                organizationSwitcherPopoverCard: "z-[99999]",
+                                // organizationPreviewTextContainer: "text-", 
                                 organizationSwitcherDropdownItemContainer: "hover:text-gray-200",
                                 organizationSwitcherDropdownItem: "text-red-500",
                                 organizationPreviewMainIdentifier: "text-sm",
@@ -134,12 +160,18 @@ export const Navigation = () => {
                             },
                         }}
                     />
-                </div>
-                <div>
-                    <p>Action Items</p>
+                    <Item 
+                    onClick={handleCreate} 
+                    label="New Page" 
+                    icon={PlusSquare}
+                    />
                 </div>
                 <div className="mt-4">
-                    <p>Documents</p>
+                    {documents?.map((document) => (
+                        <p key={document._id}>
+                            {document.title}
+                        </p>
+                    ))}
                 </div>
                 <div
                     onMouseDown={handleMouseDown}
@@ -147,6 +179,29 @@ export const Navigation = () => {
                     className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize
             absolute h-full w-1 right-0 top-0 bg-teal-500"
                 />
+
+                <div className="mt-auto flex items-center p-2 pb-8">
+                    <UserButton
+                        appearance={{
+                            elements: {
+                                rootBox: "flex items-center rounded-md hover:bg-[#333436]",
+                                userProfile: "text-teal-900",
+                                userProfileMainIdentifier: "text-sm",
+                                userProfileAvatarContainer: "mr-2",
+                                userButtonPopoverCard: "z-[99999]"
+                            },
+                        }}
+                    />
+
+                    <div className="flex flex-col justify-center ml-2">
+                        <span className="text-teal-900 text-sm leading-none truncate max-w-[150px]">
+                            {user?.fullName}
+                        </span>
+                        <span className="text-teal-900 text-xs leading-none mt-1 truncate max-w-[150px] text-center">
+                            {user?.primaryEmailAddress?.emailAddress}
+                        </span>
+                    </div>
+                </div>
             </aside>
             <div
                 ref={navbarRef}

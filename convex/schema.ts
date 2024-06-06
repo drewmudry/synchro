@@ -2,9 +2,10 @@ import { v } from "convex/values"
 import { defineSchema, defineTable} from "convex/server"
 
 export default defineSchema({
-    document: defineTable({
+    documents: defineTable({
         title: v.string(), 
         content: v.string(), 
+        parentDocument: v.optional(v.id("documents")), 
         orgId: v.string(), 
         authorId: v.string(), 
         authorName: v.string(), 

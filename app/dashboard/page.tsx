@@ -15,7 +15,7 @@ interface DashboardPageProps {
 
 const Page = ({ searchParams }: DashboardPageProps) => {
   const { organization } = useOrganization();
-  const [selectedSpan, setSelectedSpan] = useState("Home");
+  const [selectedSpan, setSelectedSpan] = useState("Notes");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const renderSelectedComponent = () => {
@@ -39,15 +39,11 @@ const Page = ({ searchParams }: DashboardPageProps) => {
   return (
     <div className="flex h-screen">
       <div>
-        {/* <Navbar
-          selectedSpan={selectedSpan}
-          setSelectedSpan={setSelectedSpan}
-          isMobileMenuOpen={isMobileMenuOpen}
-          setIsMobileMenuOpen={setIsMobileMenuOpen}
-        /> */}
         <Navigation />
       </div>
-      <div className="bg-grey-200">{renderSelectedComponent()}</div>
+      <div className="flex-1 bg-grey-200 flex items-center justify-center">
+        {renderSelectedComponent()}
+      </div>
     </div>
   );
 };
