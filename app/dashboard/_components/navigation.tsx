@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { OrganizationSwitcher, useOrganization } from "@clerk/clerk-react"
-import { ChevronsLeft, MenuIcon, PlusCircle, PlusSquare } from "lucide-react"
+import { ChevronsLeft, MenuIcon, PlusCircle, PlusSquare, Search, Settings } from "lucide-react"
 import Image from "next/image";
 import { usePathname } from "next/navigation"
 import { ElementRef, useEffect, useRef, useState } from "react"
@@ -159,6 +159,17 @@ export const Navigation = () => {
                                 internal: "null",
                             },
                         }}
+                    />
+                    <Item 
+                    label="Search"
+                    icon={Search}
+                    isSearch
+                    onClick={()=>{}}
+                    />
+                    <Item 
+                    label="Settings"
+                    icon={Settings}
+                    onClick={()=>{}}
                     />
                     <Item 
                     onClick={handleCreate} 
