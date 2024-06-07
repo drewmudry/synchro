@@ -54,6 +54,7 @@ export const Item = ({
     const onCreate = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
+        event.stopPropagation()
         if (!id) return
         if (!organization) {
             const promise = createUserDocument({ title: "untitled", parentDocument: id })
