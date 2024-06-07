@@ -4,14 +4,15 @@ import { cn } from "@/lib/utils"
 import { OrganizationSwitcher, useOrganization } from "@clerk/clerk-react"
 import { ChevronsLeft, MenuIcon, PlusCircle, PlusSquare, Search, Settings } from "lucide-react"
 import Image from "next/image";
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { ElementRef, useEffect, useRef, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
 import { UserButton, useUser } from "@clerk/clerk-react";
-import { useQuery , useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Item } from "./item";
 import { toast } from "sonner";
+import { DocumentList } from "./documentList";
 
 export const Navigation = () => {
     const pathName = usePathname()
@@ -24,9 +25,10 @@ export const Navigation = () => {
     const [isCollapsed, setIsCollapsed] = useState(isMobile)
 
     const { user } = useUser();
+    const router = useRouter()
+    const createOrgDocument = useMutation(api.documents.createOrgDocument)
+    const createUserDocument = useMutation(api.documents.createUserDocument)
     const { organization } = useOrganization()
-    const documents = useQuery(api.documents.get)
-    const create = useMutation(api.documents.create)
 
     useEffect(() => {
         if (isMobile) {
@@ -100,15 +102,30 @@ export const Navigation = () => {
     }
 
     const handleCreate = () => {
-        if (!organization) {return}
-        const promise = create({ title: "Untitled", orgId: organization.id })
-    
-        toast.promise(promise, {
-          loading: "Creating a new document...", 
-          success: "New document created!", 
-          error: "Failed to create a new document."
-        })
-      }
+        if (!organization) {
+            const promise = createUserDocument({ title: "untitled" })
+                .then((documentId) => {
+                    router.push(`/documents/${documentId}`)
+                })
+
+            toast.promise(promise, {
+                loading: "Creating a new document...",
+                success: "New document created!",
+                error: "Failed to create a new document."
+            })
+        } else {
+            const promise = createOrgDocument({ title: "untitled", orgId: organization.id })
+                .then((documentId) => {
+                    router.push(`/documents/${documentId}`)
+                })
+
+            toast.promise(promise, {
+                loading: "Creating a new document...",
+                success: "New document created!",
+                error: "Failed to create a new document."
+            })
+        }
+    }
 
     return (
         <>
@@ -123,7 +140,7 @@ export const Navigation = () => {
                 <div
                     onClick={collapse}
                     role="button"
-                    className={cn("h-6 w-6 text-muted-foreground rounded-sm hover:bg-gray-300 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+                    className={cn("h-6 w-6 text-muted-foreground rounded-sm hover:bg-gray-300 absolute top-1 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
                         isMobile && "opacity-100",
                     )}
                 >
@@ -148,41 +165,42 @@ export const Navigation = () => {
                             elements: {
                                 organizationSwitcherTrigger: "flex items-center text-teal-900 text-md rounded-md width-100%",
                                 organizationSwitcherDropdown: "bg-red-500 text-gray-200 right-0",
-                                organizationSwitcherPopoverCard: "z-[99999]",
-                                // organizationPreviewTextContainer: "text-", 
+                                organizationSwitcherPopoverCard: "z-[99999]", 
                                 organizationSwitcherDropdownItemContainer: "hover:text-gray-200",
                                 organizationSwitcherDropdownItem: "text-red-500",
                                 organizationPreviewMainIdentifier: "text-sm",
+                                userPreviewTextContainer: "text-teal-900 hover:text-gray-200", 
                                 button: "hover:bg-teal-900",
                                 organizationPreviewAvatarContainer: "pl-2",
-                                rootBox: "rounded-md",
-                                internal: "null",
+                                rootBox: "rounded-md z-[99999]",
+                                modalBackdrop: "z-[99999]", 
+                                modalContent: "z-[99999]", 
+                                cardBox: "z-[99999]", 
+                                createOrganization: "z-[99999]", 
+                                card: "z-[99999]", 
+                                
                             },
                         }}
                     />
-                    <Item 
-                    label="Search"
-                    icon={Search}
-                    isSearch
-                    onClick={()=>{}}
+                    <Item
+                        label="Search"
+                        icon={Search}
+                        isSearch
+                        onClick={() => { }}
                     />
-                    <Item 
-                    label="Settings"
-                    icon={Settings}
-                    onClick={()=>{}}
+                    <Item
+                        label="Settings"
+                        icon={Settings}
+                        onClick={() => { }}
                     />
-                    <Item 
-                    onClick={handleCreate} 
-                    label="New Page" 
-                    icon={PlusSquare}
+                    <Item
+                        onClick={handleCreate}
+                        label="New Page"
+                        icon={PlusSquare}
                     />
                 </div>
                 <div className="mt-4">
-                    {documents?.map((document) => (
-                        <p key={document._id}>
-                            {document.title}
-                        </p>
-                    ))}
+                    <DocumentList />
                 </div>
                 <div
                     onMouseDown={handleMouseDown}

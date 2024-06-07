@@ -6,7 +6,7 @@ export default defineSchema({
         title: v.string(), 
         content: v.string(), 
         parentDocument: v.optional(v.id("documents")), 
-        orgId: v.string(), 
+        orgId: v.optional(v.string()), 
         authorId: v.string(), 
         authorName: v.string(), 
         icon: v.optional(v.string()), 
@@ -14,8 +14,11 @@ export default defineSchema({
         isArchived: v.boolean(), 
     })
     .index("by_org", ['orgId'])
+    .index("by_org_parent", ["orgId", 'parentDocument'])
+    .index("by_author", ['authorId']) 
+    .index("by_author_parent", ["authorId", 'parentDocument'])
     .searchIndex("search_title", {
         searchField: "title", 
-        filterFields: ["orgId"]
+        filterFields: ["orgId", "authorId"]
     })
 })

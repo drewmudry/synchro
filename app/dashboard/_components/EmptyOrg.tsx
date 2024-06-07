@@ -21,12 +21,12 @@ export const EmptyOrg = () => {
           <p className="font-helvetica font-semibold text-rose-800"> Create or Join an organization to get started</p>
           <div className="mt-6">
                 <Dialog>
-                    <DialogTrigger asChild>
+                    <DialogTrigger asChild className="z-[99999]">
                         <Button className="size-lg bg-rose-900">
-                            Organizations
+                            Create an organization
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="p-0 bg-transparent border-none max-w-[480px]">
+                    <DialogContent className="p-0 bg-transparent border-none max-w-[480px] z-[99999]">
                         <CreateOrganization/>
                     </DialogContent>
                 </Dialog>

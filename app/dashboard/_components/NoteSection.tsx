@@ -7,58 +7,85 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useOrganization } from "@clerk/clerk-react";
 import { toast } from "sonner"
+import { useRouter } from "next/navigation";
+import { Plus } from "lucide-react";
 
 interface NoteSectionProps {
-  orgId: string, 
+  orgId: string,
   query: {
-    search?: string, 
+    search?: string,
 
   }
 }
 
-export const NoteSection = ({orgId, query}: NoteSectionProps) => {
+export const NoteSection = ({ orgId, query }: NoteSectionProps) => {
 
   const data = [] //placeholder for api call data 
-  const create = useMutation(api.documents.create)
-
+  const router = useRouter()
+  const createOrgDocument = useMutation(api.documents.createOrgDocument)
+  const createUserDocument = useMutation(api.documents.createUserDocument)
   const { organization } = useOrganization()
 
-  const onCreate = () => {
-    if (!organization) {return}
-    const promise = create({ title: "Untitled", orgId: organization.id })
+  const onCreate = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!organization) {
+      const promise = createUserDocument({ title: "untitled" })
+        .then((documentId) => {
+          router.push(`/documents/${documentId}`)
+        })
 
-    toast.promise(promise, {
-      loading: "Creating a new document...", 
-      success: "New document created!", 
-      error: "Failed to create a new document."
-    })
+      toast.promise(promise, {
+        loading: "Creating a new document...",
+        success: "New document created!",
+        error: "Failed to create a new document."
+      })
+    } else {
+      const promise = createOrgDocument({ title: "untitled", orgId: organization.id })
+        .then((documentId) => {
+          router.push(`/documents/${documentId}`)
+        })
+
+      toast.promise(promise, {
+        loading: "Creating a new document...",
+        success: "New document created!",
+        error: "Failed to create a new document."
+      })
+    }
   }
 
-  if(!data?.length && query.search){
-    return(
+  if (!data?.length && query.search) {
+    return (
       <div className="h-full flex flex-col items-center justify-center space-y-4">
-        <Image 
-        src="/nothing-found.svg"
-        alt="no notes"
-        height={240}
-        width={240}/>
+        <Image
+          src="/nothing-found.svg"
+          alt="no notes"
+          height={240}
+          width={240} />
         <h2> We cant find what you're looking for</h2>
         <p>Try searching for something else</p>
       </div>
     )
   }
 
-  if(!data?.length){
-    return(
+  if (!data?.length) {
+    return (
       <div className="container mx-auto h-full flex flex-col items-center justify-center">
-        <Image 
-        src="/no-boards.svg"
-        alt="no notes"
-        height={240}
-        width={240}/>
+        <Image
+          src="/no-boards.svg"
+          alt="no notes"
+          height={240}
+          width={240} />
         <h2 className="text-zinc-800">{organization?.name!} has no notes yet.</h2>
-        <div className="mt-2">
-          <Button onClick={onCreate} className="bg-teal-900 text-gray-200">Create Note</Button>
+        <div className="mt-2 flex">
+          <span> Create Document</span>
+          <div
+            role="button"
+            onClick={onCreate}
+            className="ml-auto flex items-center gap-x-2">
+          <div>
+            <Plus className="h-6 w-6 text-teal-900 hover:bg-gray-200" />
+          </div>
+          </div>
         </div>
       </div>
     )
