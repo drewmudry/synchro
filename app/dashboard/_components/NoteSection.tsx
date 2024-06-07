@@ -76,14 +76,15 @@ export const NoteSection = ({ orgId, query }: NoteSectionProps) => {
           height={240}
           width={240} />
         <h2 className="text-zinc-800">{organization?.name!} has no notes yet.</h2>
-        <div className="mt-2 flex">
+        <div 
+        role="button"
+        onClick={onCreate}
+        className="mt-2 flex hover:bg-gray-200 rounded-sm p-1">
           <span> Create Document</span>
           <div
-            role="button"
-            onClick={onCreate}
             className="ml-auto flex items-center gap-x-2">
           <div>
-            <Plus className="h-6 w-6 text-teal-900 hover:bg-gray-200" />
+            <Plus className="h-6 w-6 text-teal-900" />
           </div>
           </div>
         </div>
