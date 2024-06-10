@@ -3,13 +3,14 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { Id } from "@/convex/_generated/dataModel"
 import { cn } from "@/lib/utils"
-import { ChevronDown, ChevronRight, LucideIcon, Plus } from "lucide-react"
+import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash } from "lucide-react"
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
-import { useOrganization } from "@clerk/clerk-react"
+import { useOrganization, useUser } from "@clerk/clerk-react"
 import { createUserDocument } from "@/convex/documents"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuContent } from "@/components/ui/dropdown-menu"
 
 
 interface ItemProps {
@@ -23,6 +24,7 @@ interface ItemProps {
     label: string
     onClick: () => void
     icon: LucideIcon
+    authorName?: string
 }
 
 export const Item = ({
@@ -35,59 +37,80 @@ export const Item = ({
     isSearch,
     level = 0,
     expanded,
-    onExpand
+    onExpand,
+    authorName
+  }: ItemProps) => {
+    const router = useRouter();
+    const { user } = useUser()
+    const { organization } = useOrganization();
+    const createOrgDocument = useMutation(api.documents.createOrgDocument);
+    const createUserDocument = useMutation(api.documents.createUserDocument);
+    const userArchive = useMutation(api.documents.userArchive)
+    const orgArchive = useMutation(api.documents.orgArchive)
 
-}: ItemProps) => {
-    const router = useRouter()
-
-    const createOrgDocument = useMutation(api.documents.createOrgDocument)
-    const createUserDocument = useMutation(api.documents.createUserDocument)
-    const { organization } = useOrganization()
-
-    const handleExpand = (
-        event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    const onArchive = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent> 
     ) => {
         event.stopPropagation()
-        onExpand?.()
-    }
+        if(!id) return 
 
-    const onCreate = (
-        event: React.MouseEvent<HTMLDivElement, MouseEvent>
-    ) => {
-        event.stopPropagation()
-        if (!id) return
-        if (!organization) {
-            const promise = createUserDocument({ title: "untitled", parentDocument: id })
-                .then((documentId) => {
-                    if (!expanded) {
-                        onExpand?.()
-                    }
-                    router.push(`/documents/${documentId}`)
-                })
-
+        if(!organization){
+            const promise = userArchive({ id })
             toast.promise(promise, {
-                loading: "Creating a new document...",
-                success: "New document created!",
-                error: "Failed to create a new document."
-            })
+                loading: "Moving to trash...",
+                success: "Document moved to trash!",
+                error: "Failed to archive document.",
+              });
         } else {
-            const promise = createOrgDocument({ title: "untitled", parentDocument: id, orgId: organization.id })
-                .then((documentId) => {
-                    if (!expanded) {
-                        onExpand?.()
-                    }
-                    router.push(`/documents/${documentId}`)
-                })
-
+            const promise = orgArchive({ id, orgId: organization.id })
             toast.promise(promise, {
-                loading: "Creating a new document...",
-                success: "New document created!",
-                error: "Failed to create a new document."
-            })
+                loading: "Moving to trash...",
+                success: "Document moved to trash!",
+                error: "Failed to archive document.",
+              });
         }
     }
-
-    const ChevronIcon = expanded ? ChevronDown : ChevronRight
+  
+    const handleExpand = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      event.stopPropagation();
+      onExpand?.();
+    };
+  
+    const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      event.stopPropagation();
+      if (!id) return;
+      if (!organization) {
+        const promise = createUserDocument({ title: "untitled", parentDocument: id }).then((documentId) => {
+          if (!expanded) {
+            onExpand?.();
+          }
+          onClick();
+        });
+  
+        toast.promise(promise, {
+          loading: "Creating a new document...",
+          success: "New document created!",
+          error: "Failed to create a new document.",
+        });
+      } else {
+        const promise = createOrgDocument({ title: "untitled", parentDocument: id, orgId: organization.id }).then(
+          (documentId) => {
+            if (!expanded) {
+              onExpand?.();
+            }
+            onClick();
+          }
+        );
+  
+        toast.promise(promise, {
+          loading: "Creating a new document...",
+          success: "New document created!",
+          error: "Failed to create a new document.",
+        });
+      }
+    };
+  
+    const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
     return (
         <div
@@ -133,6 +156,35 @@ export const Item = ({
                 role="button"
                 onClick={onCreate}
                 className="ml-auto flex items-center gap-x-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger
+                            onClick={(e) => e.stopPropagation()}
+                            asChild>
+                            <div
+                            role="button"
+                            className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm
+                            hover:bg-gray-200"
+                            >
+                                <MoreHorizontal className="h-4 w-4 text-teal-900"/>
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent 
+                            className="z-[99999] w-60 bg-gray-300"
+                            align="start"
+                            side="right"
+                            forceMount
+                            >
+                            <DropdownMenuItem onClick={onArchive}>
+                                <Trash className="h-4 w-4 mr-2"/>
+                                Delete
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator className="text-teal-900"/>
+                            <div className="p-2 text-xs">
+                                Created by: {authorName}
+                            </div>
+
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     <div className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-gray-300">
                         <Plus className="h-4 w-4 text-teal-900 hover:bg-gray-200" />
                     </div>
