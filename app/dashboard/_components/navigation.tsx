@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { OrganizationSwitcher, useOrganization } from "@clerk/clerk-react"
-import { ChevronsLeft, MenuIcon, PlusCircle, PlusSquare, Search, Settings } from "lucide-react"
+import { ChevronsLeft, MenuIcon, Plus, PlusCircle, PlusSquare, Search, Settings } from "lucide-react"
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation"
 import { ElementRef, useEffect, useRef, useState } from "react"
@@ -200,6 +200,11 @@ export const Navigation = () => {
                 </div>
                 <div className="mt-4">
                     <DocumentList />
+                    <Item 
+                    onClick={handleCreate}
+                    icon={Plus}
+                    label="Add a page"
+                    />
                 </div>
                 <div
                     onMouseDown={handleMouseDown}
