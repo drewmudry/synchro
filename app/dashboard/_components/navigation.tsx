@@ -71,6 +71,11 @@ export const Navigation = () => {
         }
     };
 
+    const [isDocumentsCollapsed, setIsDocumentsCollapsed] = useState(false);
+    const toggleDocumentsCollapse = () => {
+        setIsDocumentsCollapsed(!isDocumentsCollapsed);
+    };
+
     const handleMouseUp = () => {
         isResizingRef.current = false
         document.removeEventListener("mousemove", handleMouseMove)
@@ -105,7 +110,7 @@ export const Navigation = () => {
         if (!organization) {
             const promise = createUserDocument({ title: "untitled" })
                 .then((documentId) => {
-                    router.push(`/documents/${documentId}`)
+                    // router.push(`/documents/${documentId}`)
                 })
 
             toast.promise(promise, {
@@ -116,7 +121,7 @@ export const Navigation = () => {
         } else {
             const promise = createOrgDocument({ title: "untitled", orgId: organization.id })
                 .then((documentId) => {
-                    router.push(`/documents/${documentId}`)
+                    // router.push(`/documents/${documentId}`)
                 })
 
             toast.promise(promise, {
@@ -165,19 +170,19 @@ export const Navigation = () => {
                             elements: {
                                 organizationSwitcherTrigger: "flex items-center text-teal-900 text-md rounded-md width-100%",
                                 organizationSwitcherDropdown: "bg-red-500 text-gray-200 right-0",
-                                organizationSwitcherPopoverCard: "z-[99999]", 
+                                organizationSwitcherPopoverCard: "z-[99999]",
                                 organizationSwitcherDropdownItem: "text-red-500",
                                 organizationPreviewMainIdentifier: "text-lg",
-                                organizationPreview: "text-bold", 
+                                organizationPreview: "text-bold",
                                 button: "hover:bg-teal-900",
                                 organizationPreviewAvatarContainer: "pl-2",
                                 rootBox: "rounded-md z-[99999]",
-                                modalBackdrop: "z-[99999]", 
-                                modalContent: "z-[99999]", 
-                                cardBox: "z-[99999]", 
-                                createOrganization: "z-[99999]", 
-                                card: "z-[99999]", 
-                                
+                                modalBackdrop: "z-[99999]",
+                                modalContent: "z-[99999]",
+                                cardBox: "z-[99999]",
+                                createOrganization: "z-[99999]",
+                                card: "z-[99999]",
+
                             },
                         }}
                     />
@@ -199,11 +204,9 @@ export const Navigation = () => {
                     />
                 </div>
                 <div className="mt-4">
-                    <DocumentList />
-                    <Item 
-                    onClick={handleCreate}
-                    icon={Plus}
-                    label="Add a page"
+                    <DocumentList
+                        query="user"
+                        title="Your Documents"
                     />
                 </div>
                 <div

@@ -25,6 +25,7 @@ interface ItemProps {
     onClick: () => void
     icon: LucideIcon
     authorName?: string
+    isTitle?: boolean
 }
 
 export const Item = ({
@@ -38,7 +39,8 @@ export const Item = ({
     level = 0,
     expanded,
     onExpand,
-    authorName
+    authorName, 
+    isTitle = false,
   }: ItemProps) => {
     const router = useRouter();
     const { user } = useUser()
@@ -122,7 +124,7 @@ export const Item = ({
                 active && "bg-gray-300"
             )}
         >
-            {!!id && (
+            {(!!id || isTitle) && (
                 <div
                     role="button"
                     className="h-full rounded-sm hover:bg-gray-300"
