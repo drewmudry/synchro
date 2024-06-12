@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { OrganizationSwitcher, useOrganization } from "@clerk/clerk-react"
-import { ChevronsLeft, MenuIcon, Plus, PlusCircle, PlusSquare, Search, Settings } from "lucide-react"
+import { ChevronsLeft, MenuIcon, Plus, UserCircle, PlusSquare, Search, Settings, Building2, User } from "lucide-react"
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation"
 import { ElementRef, useEffect, useRef, useState } from "react"
@@ -13,6 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { Item } from "./item";
 import { toast } from "sonner";
 import { DocumentList } from "./documentList";
+import { DocumentListContainer } from "./documentListContainer";
 
 export const Navigation = () => {
     const pathName = usePathname()
@@ -106,32 +107,6 @@ export const Navigation = () => {
         }
     }
 
-    const handleCreate = () => {
-        if (!organization) {
-            const promise = createUserDocument({ title: "untitled" })
-                .then((documentId) => {
-                    // router.push(`/documents/${documentId}`)
-                })
-
-            toast.promise(promise, {
-                loading: "Creating a new document...",
-                success: "New document created!",
-                error: "Failed to create a new document."
-            })
-        } else {
-            const promise = createOrgDocument({ title: "untitled", orgId: organization.id })
-                .then((documentId) => {
-                    // router.push(`/documents/${documentId}`)
-                })
-
-            toast.promise(promise, {
-                loading: "Creating a new document...",
-                success: "New document created!",
-                error: "Failed to create a new document."
-            })
-        }
-    }
-
     return (
         <>
             <aside
@@ -196,19 +171,29 @@ export const Navigation = () => {
                         label="Settings"
                         icon={Settings}
                         onClick={() => { }}
-                    />
-                    <Item
-                        onClick={handleCreate}
-                        label="New Page"
-                        icon={PlusSquare}
+
                     />
                 </div>
                 <div className="mt-4">
-                    <DocumentList
-                        query="user"
-                        title="Your Documents"
+                <DocumentListContainer
+                    titleIcon={User}
+                    query="user"
+                    createFor="user"
+                    title="Your Documents"
+                    orgId=""
+                />
+            </div>
+            {organization && (
+                <div className="mt-4">
+                    <DocumentListContainer
+                        titleIcon={Building2}
+                        query="org"
+                        createFor="org"
+                        title={organization.name + "'s Documents"}
+                        orgId={organization.id}
                     />
                 </div>
+            )}
                 <div
                     onMouseDown={handleMouseDown}
                     onClick={resetWidth}
