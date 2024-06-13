@@ -10,44 +10,46 @@ import { toast } from "sonner";
 import { useOrganization } from "@clerk/clerk-react"
 import { TitleItem } from "./titleItem"
 
+import { useDocumentContext } from "./documentContext" 
+
 interface DocumentListContainerProps {
-    parentDocumentId?: Id<"documents">
-    level?: number
-    data?: Doc<"documents">
-    title?: string
-    query: "user" | "org"
-    createFor: "user" | "org"
-    orgId: string
-    titleIcon: LucideIcon
+  parentDocumentId?: Id<"documents">;
+  level?: number;
+  data?: Doc<"documents">;
+  title?: string;
+  titleIcon: LucideIcon;
 }
 
-export const DocumentListContainer = ({ parentDocumentId, level = 0, title, query, createFor, orgId, titleIcon }: DocumentListContainerProps) => {
-    const [expanded, setExpanded] = useState(true);
+export const DocumentListContainer = ({
+  parentDocumentId,
+  level = 0,
+  title,
+  titleIcon,
+}: DocumentListContainerProps) => {
+  const [expanded, setExpanded] = useState(true);
+  const { documentType, orgId } = useDocumentContext();
 
-    const onTitleExpand = () => {
-        setExpanded((prevExpanded) => !prevExpanded);
-    };
+  const onTitleExpand = () => {
+    setExpanded((prevExpanded) => !prevExpanded);
+  };
 
-    return (
-        <>
-            <TitleItem
-                onClick={()=>{}}
-                label={title!}
-                icon={titleIcon}
-                level={level}
-                isSearch={false}
-                expanded={expanded}
-                onExpand={onTitleExpand}
-                createFor={createFor}
-            />
-            {expanded && (
-                <DocumentList
-                    parentDocumentId={parentDocumentId}
-                    level={level + 1}
-                    query={query}
-                    orgId={orgId}
-                />
-            )}
-        </>
-    );
+  return (
+    <>
+      <TitleItem
+        onClick={() => {}}
+        label={title!}
+        icon={titleIcon}
+        level={level}
+        isSearch={false}
+        expanded={expanded}
+        onExpand={onTitleExpand}
+      />
+      {expanded && (
+        <DocumentList
+          parentDocumentId={parentDocumentId}
+          level={level + 1}
+        />
+      )}
+    </>
+  );
 };

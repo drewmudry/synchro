@@ -12,30 +12,30 @@ import { useOrganization } from "@clerk/clerk-react"
 import { useMutation } from "convex/react";
 import { toast } from "sonner";
 import { TitleItem } from "./titleItem"
+import { useDocumentContext } from "./documentContext"
 
 
 interface DocumentListProps {
-    parentDocumentId?: Id<"documents">
-    level?: number
-    data?: Doc<"documents">
-    title?: string
-    query: "user" | "org"
-    orgId?: string
+    parentDocumentId?: Id<"documents">;
+    level?: number;
+    data?: Doc<"documents">;
+    title?: string;
 }
 
-export const DocumentList = ({ parentDocumentId, level = 0, title, query, orgId = "" }: DocumentListProps) => {
+export const DocumentList = ({ parentDocumentId, level = 0, title }: DocumentListProps) => {
 
     const params = useParams()
     const { organization } = useOrganization();
     const router = useRouter()
+    const { documentType, orgId } = useDocumentContext();
 
-    const documents = (query === "user")
+    const documents = documentType === "user"
         ? useQuery(api.documents.getUserDocuments, {
-            parentDocument: parentDocumentId
+            parentDocument: parentDocumentId,
         })
         : useQuery(api.documents.getOrgDocuments, {
             orgId: orgId,
-            parentDocument: parentDocumentId
+            parentDocument: parentDocumentId,
         });
 
     const [expanded, setExpanded] = useState<Record<string, boolean>>(() => ({
@@ -92,7 +92,7 @@ export const DocumentList = ({ parentDocumentId, level = 0, title, query, orgId 
                 <div key={document._id}>
                     <Item
                         id={document._id}
-                        onClick={() => {onRedirect(document._id), onExpand(document._id)}}
+                        onClick={() => { onRedirect(document._id) }}
                         label={document.title}
                         icon={FileIcon}
                         documentIcon={document.icon}
@@ -101,15 +101,11 @@ export const DocumentList = ({ parentDocumentId, level = 0, title, query, orgId 
                         onExpand={() => onExpand(document._id)}
                         expanded={expanded[document._id]}
                         authorName={document.authorName}
-                        createFor={query}
-                        orgId={document.orgId}
                     />
                     {expanded[document._id] && (
                         <DocumentList
                             parentDocumentId={document._id}
                             level={level + 2}
-                            query="org"
-
                         />
                     )}
                 </div>

@@ -10,7 +10,10 @@ import { useOrganization, useUser } from "@clerk/clerk-react"
 import { createUserDocument } from "@/convex/documents"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuContent } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuTrigger,
+         DropdownMenuItem, DropdownMenuSeparator, 
+         DropdownMenuContent } from "@/components/ui/dropdown-menu"
+import { useDocumentContext } from "./documentContext"
 
 
 interface ItemProps {
@@ -26,8 +29,6 @@ interface ItemProps {
     icon: LucideIcon
     authorName?: string
     isTitle?: boolean
-    createFor?: "user" | "org"
-    orgId?: string
 }
 
 export const Item = ({
@@ -43,8 +44,6 @@ export const Item = ({
     onExpand,
     authorName,
     isTitle = false,
-    createFor, 
-    orgId
 }: ItemProps) => {
     const router = useRouter();
     const { user } = useUser()
@@ -53,6 +52,7 @@ export const Item = ({
     const createUserDocument = useMutation(api.documents.createUserDocument);
     const userArchive = useMutation(api.documents.userArchive)
     const orgArchive = useMutation(api.documents.orgArchive)
+    const { documentType, orgId } = useDocumentContext();
 
     const onArchive = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -60,15 +60,15 @@ export const Item = ({
         event.stopPropagation()
         if (!id) return
 
-        if (!organization) {
+        if (documentType === 'user') {
             const promise = userArchive({ id })
             toast.promise(promise, {
                 loading: "Moving to trash...",
                 success: "Document moved to trash!",
                 error: "Failed to archive document.",
             });
-        } else {
-            const promise = orgArchive({ id, orgId: organization.id })
+        } else if (documentType === 'org') {
+            const promise = orgArchive({ id, orgId: orgId })
             toast.promise(promise, {
                 loading: "Moving to trash...",
                 success: "Document moved to trash!",
@@ -79,9 +79,10 @@ export const Item = ({
 
     const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
-        if (createFor === 'user') {
-            const promise = createUserDocument({ title: "untitled", parentDocument: id}).then((documentId) => {
-                handleExpand
+        if (documentType === 'user') {
+            const promise = createUserDocument({ title: "untitled", parentDocument: id}).then(
+                (documentId) => {
+                    // onClick();
             });
 
             toast.promise(promise, {
@@ -89,11 +90,11 @@ export const Item = ({
                 success: "New document created!",
                 error: "Failed to create a new document.",
             });
-        } else if (createFor === 'org') {
+        } else if (documentType === 'org') {
             if (organization) {
-                const promise = createOrgDocument({ title: "untitled", orgId: orgId || "", parentDocument: id }).then(
+                const promise = createOrgDocument({ title: "untitled", orgId: orgId, parentDocument: id }).then(
                     (documentId) => {
-                        handleExpand
+                        // onClick();
                     }
                 );
 

@@ -14,6 +14,8 @@ import { Item } from "./item";
 import { toast } from "sonner";
 import { DocumentList } from "./documentList";
 import { DocumentListContainer } from "./documentListContainer";
+import { DocumentProvider } from "./documentContext";
+import { NavigationItem } from "./NavigationItem";
 
 export const Navigation = () => {
     const pathName = usePathname()
@@ -161,39 +163,36 @@ export const Navigation = () => {
                             },
                         }}
                     />
-                    <Item
+                    <NavigationItem
                         label="Search"
                         icon={Search}
                         isSearch
                         onClick={() => { }}
                     />
-                    <Item
+                    <NavigationItem
                         label="Settings"
                         icon={Settings}
                         onClick={() => { }}
-
                     />
                 </div>
                 <div className="mt-4">
-                <DocumentListContainer
-                    titleIcon={User}
-                    query="user"
-                    createFor="user"
-                    title="Your Documents"
-                    orgId=""
-                />
-            </div>
-            {organization && (
-                <div className="mt-4">
-                    <DocumentListContainer
-                        titleIcon={Building2}
-                        query="org"
-                        createFor="org"
-                        title={organization.name + "'s Documents"}
-                        orgId={organization.id}
-                    />
+                    <DocumentProvider documentType="user" orgId="">
+                        <DocumentListContainer
+                            titleIcon={User}
+                            title="Your Documents"
+                        />
+                    </DocumentProvider>
                 </div>
-            )}
+                {organization && (
+                    <div className="mt-4">
+                        <DocumentProvider documentType="org" orgId={organization.id}>
+                            <DocumentListContainer
+                                titleIcon={Building2}
+                                title={organization.name + "'s Documents"}
+                            />
+                        </DocumentProvider>
+                    </div>
+                )}
                 <div
                     onMouseDown={handleMouseDown}
                     onClick={resetWidth}

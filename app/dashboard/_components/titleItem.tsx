@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuContent } from "@/components/ui/dropdown-menu"
 import { create } from "domain"
+import { useDocumentContext } from "./documentContext"
 
 
 interface TitleItemProps {
@@ -26,7 +27,6 @@ interface TitleItemProps {
     onClick: () => void
     icon: LucideIcon
     authorName?: string
-    createFor: string
 }
 
 export const TitleItem = ({
@@ -40,13 +40,13 @@ export const TitleItem = ({
     expanded,
     onExpand,
     authorName, 
-    createFor
 }: TitleItemProps) => {
     const router = useRouter();
     const { user } = useUser()
     const { organization } = useOrganization();
     const createOrgDocument = useMutation(api.documents.createOrgDocument);
     const createUserDocument = useMutation(api.documents.createUserDocument);
+    const { documentType } = useDocumentContext();
 
 
     const handleExpand = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -56,7 +56,7 @@ export const TitleItem = ({
 
     const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
-        if (createFor === 'user') {
+        if (documentType === 'user') {
             const promise = createUserDocument({ title: "untitled" }).then((documentId) => {
                 onClick();
                 console.log("WE HERE USER")
@@ -67,7 +67,7 @@ export const TitleItem = ({
                 success: "New document created!",
                 error: "Failed to create a new document.",
             });
-        } else if (createFor === 'org') {
+        } else if (documentType === 'org') {
             if (organization) {
                 const promise = createOrgDocument({ title: "untitled", orgId: organization.id }).then(
                     (documentId) => {
