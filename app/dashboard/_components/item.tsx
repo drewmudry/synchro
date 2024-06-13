@@ -3,11 +3,10 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { Id } from "@/convex/_generated/dataModel"
 import { cn } from "@/lib/utils"
-import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, SquareArrowDown, Trash } from "lucide-react"
+import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash } from "lucide-react"
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { useOrganization, useUser } from "@clerk/clerk-react"
-import { createUserDocument } from "@/convex/documents"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { DropdownMenu, DropdownMenuTrigger,
@@ -194,7 +193,7 @@ export const Item = ({
                         onClick={onCreate}
                         className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-gray-300 z-[99999]"
                     >
-                        <SquareArrowDown className="h-4 w-4 text-teal-900 hover:bg-gray-200" />
+                        <Plus className="h-4 w-4 text-teal-900 hover:bg-gray-200" />
                     </div>
                 </div>
             )}

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { OrganizationSwitcher, useOrganization } from "@clerk/clerk-react"
-import { ChevronsLeft, MenuIcon, Plus, UserCircle, PlusSquare, Search, Settings, Building2, User } from "lucide-react"
+import { ChevronsLeft, MenuIcon, Search, Settings, Building2, User } from "lucide-react"
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation"
 import { ElementRef, useEffect, useRef, useState } from "react"
@@ -10,9 +10,6 @@ import { useMediaQuery } from "usehooks-ts"
 import { UserButton, useUser } from "@clerk/clerk-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Item } from "./item";
-import { toast } from "sonner";
-import { DocumentList } from "./documentList";
 import { DocumentListContainer } from "./documentListContainer";
 import { DocumentProvider } from "./documentContext";
 import { NavigationItem } from "./NavigationItem";
