@@ -13,6 +13,8 @@ import { api } from "@/convex/_generated/api";
 import { DocumentListContainer } from "./documentListContainer";
 import { DocumentProvider } from "./documentContext";
 import { NavigationItem } from "./NavigationItem";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 // import { CustomOrganizationSwitcher } from "./customOrganizationSwitcher";
 
 export const Navigation = () => {
@@ -174,7 +176,7 @@ export const Navigation = () => {
                         onClick={() => { }}
                     />
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 pl-2">
                     <DocumentProvider documentType="user" orgId="">
                         <DocumentListContainer
                             titleIcon={User}

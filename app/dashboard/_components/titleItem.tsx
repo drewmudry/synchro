@@ -39,8 +39,8 @@ export const TitleItem = ({
     level = 0,
     expanded,
     onExpand,
-    authorName, 
-}: TitleItemProps) => {
+    authorName,
+  }: TitleItemProps) => {
     const router = useRouter();
     const { user } = useUser()
     const { organization } = useOrganization();
@@ -56,7 +56,7 @@ export const TitleItem = ({
 
     const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
-        if (documentType === 'user') {
+        if (documentType === "user") {
             const promise = createUserDocument({ title: "untitled" }).then((documentId) => {
                 onClick();
                 console.log("WE HERE USER")
