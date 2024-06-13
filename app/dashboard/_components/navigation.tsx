@@ -13,6 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { DocumentListContainer } from "./documentListContainer";
 import { DocumentProvider } from "./documentContext";
 import { NavigationItem } from "./NavigationItem";
+// import { CustomOrganizationSwitcher } from "./customOrganizationSwitcher";
 
 export const Navigation = () => {
     const pathName = usePathname()
@@ -160,6 +161,7 @@ export const Navigation = () => {
                             },
                         }}
                     />
+                    {/* <CustomOrganizationSwitcher /> */}
                     <NavigationItem
                         label="Search"
                         icon={Search}
