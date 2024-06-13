@@ -181,7 +181,7 @@ export const Navigation = () => {
                     </DocumentProvider>
                 </div>
                 {organization && (
-                    <div className="mt-4">
+                    <div className="mt-2">
                         <DocumentProvider documentType="org" orgId={organization.id}>
                             <DocumentListContainer
                                 titleIcon={Building2}
