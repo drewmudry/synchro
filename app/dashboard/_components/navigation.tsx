@@ -176,7 +176,7 @@ export const Navigation = () => {
                         onClick={() => { }}
                     />
                 </div>
-                <div className="mt-4">
+                <div className="mt-2">
                     <DocumentProvider documentType="user" orgId="">
                         <DocumentListContainer
                             titleIcon={User}
