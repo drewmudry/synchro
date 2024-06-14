@@ -256,7 +256,10 @@ export const getOrgTrashDocument = query({
 });
 
 export const userRestoreDocument = mutation({
-    args: {id: v.id("documents")}, 
+    args: {
+        id: v.id("documents"),
+        orgId: v.string(),
+    }, 
     handler: async ( ctx, args ) => {
         const identity = await ctx.auth.getUserIdentity();
 
@@ -271,6 +274,10 @@ export const userRestoreDocument = mutation({
         }
 
         if(existingDocument.authorId !== identity.subject){
+            throw new Error("Unauthorized")
+        }
+
+        if(existingDocument.orgId !== args.orgId){
             throw new Error("Unauthorized")
         }
 
@@ -371,7 +378,10 @@ export const orgRestoreDocument = mutation({
 });
 
 export const userRemoveDocument = mutation({
-    args: { id: v.id("documents")}, 
+    args: { 
+        id: v.id("documents"),
+        orgId: v.string()
+    }, 
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
 
@@ -383,6 +393,10 @@ export const userRemoveDocument = mutation({
 
         if(!existingDocument){
             throw new Error("Not Found")
+        }
+
+        if(existingDocument.orgId !== args.orgId){
+            throw new Error("Unauthorized")
         }
 
         if(existingDocument.authorId !== identity.subject){
