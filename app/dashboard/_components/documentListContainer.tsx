@@ -60,7 +60,7 @@ export const DocumentListContainer = ({
             <Item label="Trash" icon={Trash} onClick={() => { }} level={level + 1} />
           </PopoverTrigger>
           <PopoverContent className="p-0 w-72" side={isMobile ? "bottom" : "right"}>
-            <TrashBox orgId={orgId} />
+            <TrashBox orgId={orgId} documentType={documentType}/>
           </PopoverContent>
         </Popover>
       )}
